@@ -1,0 +1,18 @@
+<header class="navbar w-[100vw]">
+  <nav class="max-w-[1200px] flex mx-auto py-5">
+    <div class="nav-logo w-[20%]">
+      LOGO
+    </div>
+    <div class="nav-items w-[80%] flex justify-end items-center px-5 gap-5">
+      <div class="nav-item">
+        <a href="#">Home</a>
+      </div>
+      <div class="nav-item">
+        <span [matMenuTriggerFor]="menu">Products</span>
+        <mat-menu class="px-5 py-2" #menu="matMenu">
+          <a href="#">Web3Checkout</a>
+        </mat-menu>
+      </div>
+    </div>
+  </nav>
+</header>

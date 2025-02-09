@@ -1,1 +1,97 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+:root{
+  font-family: Geist Sans, sans-serif;
+  --font-family: "Geist Sans", sans-serif;
+  --surface-background: rgb(15, 15, 15);
+  --surface-lighter-background: rgb(26, 26, 26);
+  --surface-white: white;
+  --text-big: clamp(3rem, 4vw, 6rem);
+  --text-medium: clamp(2.6rem, 2vw, 4rem);
+  --text-small-header: clamp(1.5rem, 2vw, 2.25rem);
+  --text-small-subheader: clamp(.84rem, 2vw, 1.25rem);
+  --text-color: rgb(227, 227, 227);
+  --text-color-white: #fff;
+  --primary-color: #3958a2;
+  --primary-color-text: rgb(227, 227, 227);
+  --secondary-color: white;
+  --secondary-color-text: rgb(15, 15, 15);
+  --border-color: hsl(240, 2.1%, 18.8%);
+  color-scheme: dark;
+
+  --navbar-height: 4rem;
+  --max-width:1200px;
+}
+html, body { height: 100%; }
+body{
+  color: var(--text-color);
+  overflow-x: hidden;
+  margin: 0;
+  font-family: "Geist", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  background-color:var(--surface-background);
+}
+footer{
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+}
+h1{
+  font-weight: 700;
+  font-size: var(--text-big);
+}
+h2{
+  font-size: var(--text-medium);
+}
+h3{
+  font-size: var(--text-small-header);
+}
+h4{
+  font-size: var(--text-small-subheader);
+}
+
+
+
+
+.border-primary{
+  border-radius: .75rem;
+  border: 1px solid var(--text-color);
+  overflow: hidden;
+}
+.hero-text{
+  font-size: var(--text-big);
+  font-weight: 700;
+  color: transparent;
+  background-clip: text;
+  background-image: linear-gradient(to bottom, var(--text-color-white) 0, rgb(53, 53, 53) 95%);
+}
+.navbar{
+  position: fixed;
+  height: var(--navbar-height);
+}
+.content{
+  padding-top: var(--navbar-height);
+}
+
+.om-timeline-entry-title {
+  font-size: 3rem;
+  color: #929292;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+.om-timeline-entry-content {
+  font-size: 1rem;
+  color: #fff;
+  padding: 2rem 4rem;
+}
+
+.om-timeline-entry-content ul {
+  padding: 1rem 0 0 1rem;
+  list-style-type: circle;
+}
+
+.om-timeline-entry-content li {
+  margin-bottom: 0.5rem;
+}
+
