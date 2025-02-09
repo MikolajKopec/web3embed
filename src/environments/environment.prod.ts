@@ -2,5 +2,5 @@ import {BaseEnvironment} from './environments.interface';
 
 export const environment:BaseEnvironment = {
   stage: 'production',
-  apiUrl: 'http://localhost:3000/api'
+  apiUrl: 'https://paychain-api-khapen-khapens-projects.vercel.app/api'
 };
