@@ -22,9 +22,14 @@ export class PaychainViewComponent {
 
   roadmapData: TimelineEntry[] = [{
     title: "<h1>February</h1>",
-    content: "We focus on developing essentials features. <ul> <li>⏳ USDT support </li> <li>⏳Show current ETH price in USD</li> <li>⏳Create application to manage your transactions</li> </ul>"
+    content: "We focus on developing essentials features. <ul> <li>✅ USDT, USDC, DAI, WETH, WBTC support </li> <li>✅Show price in USD</li> <li>⏳Add webhooks</li> <li>⏳Create application to manage your transactions</li> </ul>"
 
-  }];
+  },{
+    title: "<h1>March</h1>",
+    content: "Get ready to release beta for all waitlisted people."
+
+  }
+  ];
 
   saveToWaitlist(): void {
     if (this.waitlistForm.invalid) return;
