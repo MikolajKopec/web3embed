@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {BrowserModule, provideClientHydration, withEventReplay} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -11,12 +11,13 @@ import {NgxNeonUnderlineComponent} from '@omnedia/ngx-neon-underline';
 import {NgxTimelineComponent} from '@omnedia/ngx-timeline';
 import {TimelineComponent} from './utils/timeline/timeline.component';
 import {HeroTextComponent} from './utils/hero-text/hero-text.component';
-import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClient, withFetch} from '@angular/common/http';
 import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from '@angular/material/dialog';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
+import {MatTab, MatTabGroup} from '@angular/material/tabs';
 
 
 @NgModule({
@@ -43,13 +44,16 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
     MatLabel,
     MatInput,
     FormsModule,
+    MatTabGroup,
+    MatTab,
   ],
   providers: [
     provideClientHydration(withEventReplay()),
-    provideHttpClient(),
+    provideHttpClient(withFetch()),
     provideAnimationsAsync(),
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
 }

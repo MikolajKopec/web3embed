@@ -1,20 +1,27 @@
 @import "tailwindcss";
 :root{
+  /*angular material*/
+  --mat-tab-header-active-label-text-color: var(--primary-color-text);
+  --mat-tab-header-active-focus-label-text-color:var(--primary-color-text);
+  --mat-tab-header-inactive-label-text-color: var(--primary-color-text);
+  --mat-tab-header-inactive-focus-label-text-color: var(--primary-color-text);
+
   font-family: Geist Sans, sans-serif;
   --font-family: "Geist Sans", sans-serif;
   --surface-background: rgb(15, 15, 15);
   --surface-lighter-background: rgb(26, 26, 26);
-  --surface-white: white;
+  --surface-white: var(--color-gray-200);
   --text-big: clamp(3rem, 4vw, 6rem);
-  --text-medium: clamp(2.6rem, 2vw, 4rem);
-  --text-small-header: clamp(1.5rem, 2vw, 2.25rem);
-  --text-small-subheader: clamp(.84rem, 2vw, 1.25rem);
+  --text-medium: clamp(1.8rem, 2.5vw, 4rem);
+  --text-small-header: clamp(1.3rem, 2vw, 2.25rem);
+  --text-small-subheader: clamp(.80rem, 0.8vw, 0.8rem);
+  --font-size-base:clamp(1rem, 1vw, 1rem);
   --text-color: rgb(227, 227, 227);
   --text-color-white: #fff;
   --primary-color: #3958a2;
   --primary-color-text: rgb(227, 227, 227);
   --secondary-color: white;
-  --secondary-color-text: rgb(15, 15, 15);
+  --secondary-color-text: var(--color-black);
   --border-color: hsl(240, 2.1%, 18.8%);
   color-scheme: dark;
 
@@ -28,6 +35,7 @@ body{
   margin: 0;
   font-family: "Geist", serif;
   font-optical-sizing: auto;
+  font-size: var(--font-size-base);
   font-style: normal;
   background-color:var(--surface-background);
 }
@@ -37,6 +45,14 @@ footer{
   bottom: 0;
   text-align: center;
 }
+
+ul{
+  list-style-type: disc;
+}
+ol{
+  list-style-type: decimal;
+}
+
 h1{
   font-weight: 700;
   font-size: var(--text-big);
@@ -50,7 +66,6 @@ h3{
 h4{
   font-size: var(--text-small-subheader);
 }
-
 
 
 
@@ -69,29 +84,48 @@ h4{
 .navbar{
   position: fixed;
   height: var(--navbar-height);
+background-color: var(--surface-white);
+
 }
 .content{
   padding-top: var(--navbar-height);
 }
 
 .om-timeline-entry-title {
-  font-size: 3rem;
+  h1{
+    font-size: 3rem!important;
+  }
   color: #929292;
-  margin-bottom: 0.5rem;
   font-weight: bold;
 }
 .om-timeline-entry-content {
-  font-size: 1rem;
   color: #fff;
-  padding: 2rem 4rem;
+  ul {
+    padding: 1rem 0 0 1rem;
+    list-style-type: circle;
+  }
+  li {
+    margin-bottom: 0.5rem;
+  }
+}
+.hero-component{
+  h1,h2,h3,h4,h5,h6,h7{
+    text-align: center;
+    font-weight: bold;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-image: linear-gradient(
+      to bottom,
+      #fff 0,
+      rgba(53, 53, 53) 95%
+    );
+  }
+
 }
 
-.om-timeline-entry-content ul {
-  padding: 1rem 0 0 1rem;
-  list-style-type: circle;
-}
 
-.om-timeline-entry-content li {
-  margin-bottom: 0.5rem;
+.crypto-checkout{
+  width: fit-content;
+  color: var(--secondary-color-text)!important;
 }
-
