@@ -39,6 +39,12 @@ body{
   font-style: normal;
   background-color:var(--surface-background);
 }
+img{
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
 footer{
   width: 100vw;
   position: fixed;
