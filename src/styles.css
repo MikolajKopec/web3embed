@@ -50,6 +50,7 @@ footer{
   position: fixed;
   bottom: 0;
   text-align: center;
+  font-size: var(--text-small-subheader);
 }
 
 ul{
@@ -90,8 +91,11 @@ h4{
 .navbar{
   position: fixed;
   height: var(--navbar-height);
-background-color: var(--surface-white);
-
+}
+.navbar, footer{
+  color: var(--secondary-color-text);
+  z-index: 41;
+  background-color: var(--surface-white);
 }
 .content{
   padding-top: var(--navbar-height);

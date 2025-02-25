@@ -22,12 +22,14 @@ export class PaychainViewComponent {
 
   roadmapData: TimelineEntry[] = [{
     title: "<h1>February</h1>",
-    content: "We focus on developing essentials features. <ul> <li>✅ USDT, USDC, DAI, WETH, WBTC support </li> <li>✅Show price in USD</li> <li>⏳Add webhooks</li> <li>⏳Create application to manage your transactions</li> </ul>"
+    content: "We focus on developing essentials features. <ul> <li>✅ POC embeddable payment button</li> <li>✅ USDT, USDC, DAI, WETH, WBTC support </li> <li>✅Show price in USD</li>  </ul>"
 
   },{
     title: "<h1>March</h1>",
+    content: "Last steps before Web3Checkout will be ready for first waitlisted users <ul> <li>⏳Add webhooks/email notifications on processed payment</li> <li>⏳Create application to manage your transactions and processed payments</li> </ul>"
+  },{
+    title: "<h1>January</h1>",
     content: "Get ready to release beta for all waitlisted people."
-
   }
   ];
 
