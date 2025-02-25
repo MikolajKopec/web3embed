@@ -1,10 +1,10 @@
 <section class="my-5 hero-section text-center mt-5">
   <app-hero-text><h1>Web3Checkout</h1></app-hero-text>
-  <div class="grid px-4 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-    <div class="mx-auto place-self-center lg:col-span-7">
+  <div class="flex justify-center items-center gap-4 p-5 flex-wrap">
+    <div class="">
       <h2
         class="max-w-2xl mb-4 tracking-tight leading-none text-balance">
-        Accept ETH & USDT Payments in 1&nbsp;Day.</h2>
+        Accept Crypto Payments in 1&nbsp;Day.</h2>
       <p
         class="max-w-2xl mb-4 tracking-tight leading-none md:text-sm">
         No Redirects, No Code.
@@ -13,23 +13,32 @@
         Embed a secure, white-label crypto checkout on your site. Your users never leave your platform – payments stay
         seamless and fast.</p>
       <form [formGroup]="waitlistForm" class="flex justify-center gap-5 flex-wrap">
-        <input
-          type="email"
-          required
-          formControlName="email"
-          class="px-5 py-3 text-left text-white border border-gray-300 rounded-lg"
-          placeholder="john.doe@gmail.com">
-        <button
-          (click)="saveToWaitlist()"
-          [disabled]="isLoading || waitlistForm.invalid"
-          class="w-[261px] cursor-pointer inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center bg-[var(--surface-white)] hover:bg-white text-black border border-gray-300 rounded-lg transition-colors duration-200">
-          {{ isLoading ? 'Submitting...' : 'Join Waitlist' }}
-        </button>
-        <p *ngIf="waitlistMessage">{{ waitlistMessage }}</p>
+        <div>
+          <input
+            type="email"
+            required
+            formControlName="email"
+            class="px-5 py-3 text-left text-white border border-gray-300 rounded-lg"
+            placeholder="john.doe@gmail.com">
+          <p *ngIf="waitlistForm.get('email')?.invalid && waitlistForm.get('email')?.touched"
+             class="text-red-500 text-sm">
+            {{ getEmailErrorMessage() }}
+          </p>
+          <p *ngIf="waitlistMessage">{{ waitlistMessage }}</p>
+        </div>
+        <div>
+
+          <button
+            (click)="saveToWaitlist()"
+            [disabled]="isLoading || waitlistForm.invalid"
+            class="w-[261px] cursor-pointer inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center bg-[var(--surface-white)] hover:bg-white text-black border border-gray-300 rounded-lg transition-colors duration-200">
+            {{ isLoading ? 'Submitting...' : 'Join Waitlist' }}
+          </button>
+        </div>
       </form>
     </div>
-    <div class="mx-auto place-self-center lg:col-span-5 md:max-w-[50%] md:my-5 max-md:py-5">
-      <img class="h-auto rounded-lg" src="/img/headerChceckout.jpg" alt="image description">
+    <div class="">
+      <ng-lottie class="h-auto" [options]="options"/>
     </div>
   </div>
 </section>
@@ -40,39 +49,38 @@
       <h2
         class="text-center max-w-2xl mb-4 tracking-tight leading-none text-balance">
         Seller</h2>
-      <p>Seamless Crypto Payments in 3 Simple Steps</p>
-      <span>
-      <strong>1. Create Your Transaction</strong>
-      </span>
-      <ul class="pl-5">
-        <li>
-          Log in to your Web3Embed dashboard
+      <p>Seamless Crypto Payments in 5 minutes!</p>
+      <ol>
+        <li>Create Your Transaction
+          <ul class="pl-5">
+            <li>
+              Log in to your Web3Embed dashboard and add new transaction.
+            </li>
+            <li>
+              Specify price, currency, custom id and how we should notify you on a payment.
+            </li>
+            <li>
+              Instantly receive a unique transaction-id.
+            </li>
+          </ul>
         </li>
-        <li>
-          Specify price
+        <li>Embed Your Checkout
+          <ul class="pl-5">
+            <li>
+              Add script tag to head section
+              <pre class="bg-gray-900 text-gray-100 p-2 rounded-lg overflow-auto"><code class="language-html">&lt;script src="https://cdn.jsdelivr.net/gh/web3embed/web3checkout-js/main.js">&lt;/script&gt;</code></pre>
+            </li>
+            <li>
+              Embed the Widget
+              <pre class="bg-gray-900 text-gray-100 p-2 rounded-lg overflow-auto"><code class="language-html">&lt;web3-checkout transaction-id="YOUR_UNIQUE_ID">&lt;/web3-checkout&gt;</code></pre>
+            </li>
+          </ul>
         </li>
-        <li>
-          Instantly receive a unique transaction-id
-        </li>
-      </ul>
-      <span class="text-left">
-      <strong>2. Embed Your Checkout</strong>
-      </span>
-      <ul class="pl-5">
-        <li>
-          Add script tag to head section
-          <!--          <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-auto"><code class="language-html">&lt;script src="https://cdn.jsdelivr.net/gh/MikolajKopec/web3embed-js/main.js">&lt;/script&gt;</code></pre>-->
-        </li>
-        <li>
-          Embed the Widget
-          <!--          <pre class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-auto"><code class="language-html">&lt;web3-checkout transaction-id="YOUR_UNIQUE_ID">&lt;/web3-checkout&gt;</code></pre>-->
-        </li>
-      </ul>
+      </ol>
+      <strong>Your crypto payments are ready!</strong>
       <p class="text-left">
-        <strong>That's all!</strong><br>
         ✅ Funds arrive directly to your wallet<br>
         ✅ Real-time payment notifications via webhooks/email<br>
-        ✅ Zero Platform Fees - Pay only network gas costs<br>
         ✅ Anti-Chargeback Shield - All transactions are final<br>
       </p>
     </div>
@@ -82,30 +90,18 @@
         Buyer</h2>
 
       <p>Checkout in 60 Seconds - No Redirects, No Hassle</p>
-      <span>
-      <strong>1. Click & Connect</strong>
-      </span>
-      <ul class="pl-5">
-        <li>
-          We support metamask
+      <ol>
+        <li>Click & Connect your metamask wallet</li>
+        <li>Verify & Confirm
+          <ul class="pl-5">
+            <li>See exact crypto amount with USD equivalent</li>
+            <li>Review recipient address (always visible for transparency)</li>
+            <li>Sign transaction directly in your wallet</li>
+          </ul>
         </li>
-      </ul>
-      <span class="text-left">
-      <strong>2. Verify & Confirm</strong>
-      </span>
-      <ul class="pl-5">
-        <li>
-          See exact crypto amount with USD equivalent
-        </li>
-        <li>
-          Review recipient address (always visible for transparency)
-        </li>
-        <li>
-          Sign transaction directly in your wallet
-        </li>
-      </ul>
+      </ol>
+      <strong>That's all!</strong>
       <p class="text-left">
-        <strong>That's all!</strong><br>
         🔒 Self-Custody Philosophy - We never hold your funds <br>
         🌍 Borderless Payments - Works globally without KYC<br>
       </p>
@@ -113,10 +109,25 @@
   </div>
 </section>
 <section class="my-5">
-  <app-hero-text> <h2>Tip, and try it yourself!</h2></app-hero-text>
-  <div class="flex justify-center">
-    <crypto-checkout class="crypto-checkout" transaction_id="77d2ef5c-c6f5-4494-8ab4-b696877f407d"></crypto-checkout>
+  <app-hero-text><h2>Try it yourself!</h2></app-hero-text>
+  <div class="flex gap-5 justify-center">
+  <div>
+    <app-hero-text><h3>Use sepolia testnet...</h3></app-hero-text>
+    <div class="flex justify-center flex-col items-center">
+      <crypto-checkout class="crypto-checkout" transaction_id="52b55f42-d258-4c30-9fc6-f24d80674d94"></crypto-checkout>
+    </div>
   </div>
+  <div>
+    <app-hero-text><h3>or tip real ETH!</h3></app-hero-text>
+    <div class="flex justify-center flex-col items-center">
+      <crypto-checkout class="crypto-checkout" transaction_id="77d2ef5c-c6f5-4494-8ab4-b696877f407d"></crypto-checkout>
+      <p class="sub-header mt-3 max-w-[450px] text-center">
+        Psst... <strong>every tip is saved</strong> and will be calculated as <strong>discount</strong> when Web3Checkout
+        will be released!
+      </p>
+    </div>
+  </div>
+      </div>
 </section>
 <section class="my-5 flex flex-col w-fit mx-auto">
   <app-timeline [timelineStyle]="'classic'" [timelineData]="roadmapData">
