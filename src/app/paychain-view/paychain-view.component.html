@@ -38,7 +38,7 @@
       </form>
     </div>
     <div class="">
-      <ng-lottie class="h-auto" [options]="options"/>
+      <ng-lottie *ngIf="isBrowser" class="h-auto" [options]="options"/>
     </div>
   </div>
 </section>

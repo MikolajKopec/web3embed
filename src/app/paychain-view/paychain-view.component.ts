@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {TimelineEntry} from '@omnedia/ngx-timeline';
 import {ApiService} from '../services/api.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AnimationOptions} from 'ngx-lottie';
+import {isPlatformBrowser} from '@angular/common';
 
 @Component({
   selector: 'app-paychain-view',
@@ -10,16 +11,11 @@ import {AnimationOptions} from 'ngx-lottie';
   templateUrl: './paychain-view.component.html',
   styleUrl: './paychain-view.component.css'
 })
-export class PaychainViewComponent {
+export class PaychainViewComponent implements OnInit{
   waitlistForm: FormGroup;
   isLoading: boolean = false;
   waitlistMessage: string | undefined;
 
-  constructor(private api: ApiService, private fb: FormBuilder) {
-    this.waitlistForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-    })
-  }
 
   roadmapData: TimelineEntry[] = [{
     title: "<h1>02.2025</h1>",
@@ -36,6 +32,15 @@ export class PaychainViewComponent {
   options: AnimationOptions = {
     path:"/lottie/blockchain-wallet.json"
   };
+  isBrowser: boolean = false;
+  constructor(private api: ApiService, private fb: FormBuilder, @Inject(PLATFORM_ID) private platformId: Object) {
+    this.waitlistForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+    })
+  }
+ ngOnInit() {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+ }
 
   saveToWaitlist(): void {
     if (this.waitlistForm.invalid) return;
