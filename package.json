@@ -30,6 +30,8 @@
     "@omnedia/ngx-timeline": "^2.0.1",
     "@tailwindcss/postcss": "^4.0.4",
     "express": "^4.18.2",
+    "lottie-web": "^5.12.2",
+    "ngx-lottie": "^13.0.1",
     "postcss": "^8.5.1",
     "rxjs": "~7.8.0",
     "tailwindcss": "^4.0.4",

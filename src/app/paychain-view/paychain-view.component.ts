@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {TimelineEntry} from '@omnedia/ngx-timeline';
 import {ApiService} from '../services/api.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AnimationOptions} from 'ngx-lottie';
 
 @Component({
   selector: 'app-paychain-view',
@@ -21,17 +22,20 @@ export class PaychainViewComponent {
   }
 
   roadmapData: TimelineEntry[] = [{
-    title: "<h1>February</h1>",
+    title: "<h1>02.2025</h1>",
     content: "We focus on developing essentials features. <ul> <li>✅ POC embeddable payment button</li> <li>✅ USDT, USDC, DAI, WETH, WBTC support </li> <li>✅Show price in USD</li>  </ul>"
 
-  },{
-    title: "<h1>March</h1>",
-    content: "Last steps before Web3Checkout will be ready for first waitlisted users <ul> <li>⏳Add webhooks/email notifications on processed payment</li> <li>⏳Create application to manage your transactions and processed payments</li> </ul>"
-  },{
-    title: "<h1>January</h1>",
+  }, {
+    title: "<h1>03.2025</h1>",
+    content: "Last steps before Web3Checkout will be ready for first waitlisted users <ul> <li>⏳Create application to manage your transactions and processed payments</li> <li>⏳Add webhooks/email notifications on processed payment</li> </ul>"
+  }, {
+    title: "<h1>04.2025</h1>",
     content: "Get ready to release beta for all waitlisted people."
   }
   ];
+  options: AnimationOptions = {
+    path:"/lottie/blockchain-wallet.json"
+  };
 
   saveToWaitlist(): void {
     if (this.waitlistForm.invalid) return;
@@ -50,5 +54,16 @@ export class PaychainViewComponent {
       },
       complete: () => (this.isLoading = false)
     });
+  }
+
+  getEmailErrorMessage(): string {
+    const emailControl = this.waitlistForm.get('email');
+
+    if (emailControl?.hasError('required')) {
+      return 'Email is required.';
+    } else if (emailControl?.hasError('email')) {
+      return 'Please enter a valid email address.';
+    }
+    return '';
   }
 }

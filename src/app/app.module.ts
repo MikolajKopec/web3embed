@@ -18,8 +18,7 @@ import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {MatTab, MatTabGroup} from '@angular/material/tabs';
-
-
+import {LottieComponent, provideLottieOptions} from 'ngx-lottie';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,11 +45,15 @@ import {MatTab, MatTabGroup} from '@angular/material/tabs';
     FormsModule,
     MatTabGroup,
     MatTab,
+    LottieComponent,
   ],
   providers: [
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch()),
     provideAnimationsAsync(),
+    provideLottieOptions({
+      player: ()=> import('lottie-web'),
+    })
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

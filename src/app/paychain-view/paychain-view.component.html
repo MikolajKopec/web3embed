@@ -1,10 +1,10 @@
 <section class="my-5 hero-section text-center mt-5">
   <app-hero-text><h1>Web3Checkout</h1></app-hero-text>
-  <div class="grid px-4 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-    <div class="mx-auto place-self-center lg:col-span-7">
+  <div class="flex justify-center items-center gap-4 p-5 flex-wrap">
+    <div class="">
       <h2
         class="max-w-2xl mb-4 tracking-tight leading-none text-balance">
-        Accept ETH & USDT Payments in 1&nbsp;Day.</h2>
+        Accept Crypto Payments in 1&nbsp;Day.</h2>
       <p
         class="max-w-2xl mb-4 tracking-tight leading-none md:text-sm">
         No Redirects, No Code.
@@ -13,23 +13,32 @@
         Embed a secure, white-label crypto checkout on your site. Your users never leave your platform – payments stay
         seamless and fast.</p>
       <form [formGroup]="waitlistForm" class="flex justify-center gap-5 flex-wrap">
-        <input
-          type="email"
-          required
-          formControlName="email"
-          class="px-5 py-3 text-left text-white border border-gray-300 rounded-lg"
-          placeholder="john.doe@gmail.com">
-        <button
-          (click)="saveToWaitlist()"
-          [disabled]="isLoading || waitlistForm.invalid"
-          class="w-[261px] cursor-pointer inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center bg-[var(--surface-white)] hover:bg-white text-black border border-gray-300 rounded-lg transition-colors duration-200">
-          {{ isLoading ? 'Submitting...' : 'Join Waitlist' }}
-        </button>
-        <p *ngIf="waitlistMessage">{{ waitlistMessage }}</p>
+        <div>
+          <input
+            type="email"
+            required
+            formControlName="email"
+            class="px-5 py-3 text-left text-white border border-gray-300 rounded-lg"
+            placeholder="john.doe@gmail.com">
+          <p *ngIf="waitlistForm.get('email')?.invalid && waitlistForm.get('email')?.touched"
+             class="text-red-500 text-sm">
+            {{ getEmailErrorMessage() }}
+          </p>
+          <p *ngIf="waitlistMessage">{{ waitlistMessage }}</p>
+        </div>
+        <div>
+
+          <button
+            (click)="saveToWaitlist()"
+            [disabled]="isLoading || waitlistForm.invalid"
+            class="w-[261px] cursor-pointer inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center bg-[var(--surface-white)] hover:bg-white text-black border border-gray-300 rounded-lg transition-colors duration-200">
+            {{ isLoading ? 'Submitting...' : 'Join Waitlist' }}
+          </button>
+        </div>
       </form>
     </div>
-    <div class="mx-auto place-self-center lg:col-span-5 md:max-w-[50%] md:my-5 max-md:py-5">
-      <img class="h-auto rounded-lg" src="/img/headerChceckout.jpg" alt="image description">
+    <div class="">
+      <ng-lottie class="h-auto" [options]="options"/>
     </div>
   </div>
 </section>
@@ -113,9 +122,13 @@
   </div>
 </section>
 <section class="my-5">
-  <app-hero-text> <h2>Tip, and try it yourself!</h2></app-hero-text>
-  <div class="flex justify-center">
+  <app-hero-text><h2>Tip, and try it yourself!</h2></app-hero-text>
+  <div class="flex justify-center flex-col items-center">
     <crypto-checkout class="crypto-checkout" transaction_id="77d2ef5c-c6f5-4494-8ab4-b696877f407d"></crypto-checkout>
+    <p class="sub-header mt-3 max-w-[450px] text-center">
+      Pss... <strong>every tip is saved</strong> and will be calculated as <strong>discount</strong> when Web3Checkout
+      will be released!
+    </p>
   </div>
 </section>
 <section class="my-5 flex flex-col w-fit mx-auto">
