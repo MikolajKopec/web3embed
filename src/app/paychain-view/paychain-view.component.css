@@ -1,7 +1,0 @@
-.card{
-  max-width: 500px;
-  &.card-black{
-  background-color: var(--surface-white);
-  color: var(--secondary-color-text);
-  }
-}

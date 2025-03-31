@@ -1,18 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { filter } from 'rxjs/operators';
+import { AnimationOptions } from 'ngx-lottie';
+import { isPlatformBrowser } from '@angular/common';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   standalone: false,
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
   title = 'Coflow';
-  constructor(private router: Router, private titleService: Title) {}
+  options: AnimationOptions = {
+    path: "/lottie/blockchain-wallet.json"
+  };
+  isBrowser: boolean = false;
+  constructor(private router: Router, private titleService: Title, @Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngOnInit() {
+    this.isBrowser = isPlatformBrowser(this.platformId);
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {

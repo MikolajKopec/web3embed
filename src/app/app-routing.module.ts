@@ -1,9 +1,7 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {PaychainViewComponent} from './paychain-view/paychain-view.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  {path: '', component: PaychainViewComponent, data: {title: 'Paychain'}}
 ];
 
 @NgModule({
