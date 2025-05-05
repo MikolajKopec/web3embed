@@ -1,0 +1,110 @@
+
+<div class=" container">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <div class="flex-inline justify-center items-center"
+        style="display: inline-flex; padding: 6px 12px; background-color: #EEF2FF; border-radius: 20px; font-size: 0.9rem; color: #6366F1; font-weight: 500;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          style="vertical-align: middle; margin-right: 5px;">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="8.5" cy="7" r="4"></circle>
+          <line x1="20" y1="8" x2="20" y2="14"></line>
+          <line x1="23" y1="11" x2="17" y2="11"></line>
+        </svg>
+        <span>
+          Join the Waitlist
+        </span>
+      </div>
+    </div>
+
+    <h2 class="section-title">Get Early Access to Web3Checkout</h2>
+    <p class="section-subtitle">Join our exclusive waitlist to be one of the first to test our platform and receive
+      special launch benefits.</p>
+
+    <div
+      style="max-width: 600px; margin: 40px auto 0; background-color: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); padding: 30px;">
+      <!-- Waitlist Benefits -->
+      <div style="margin-bottom: 30px; background-color: #F5F7FF; border-radius: 8px; padding: 20px;">
+        <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 15px;">Waitlist Benefits:</h3>
+        <ul style="padding-left: 20px; margin-bottom: 0;">
+          <li style="margin-bottom: 10px;"><strong>Early Beta Access</strong> - Be among the first to test our
+            platform</li>
+          <li style="margin-bottom: 10px;"><strong>Special Launch Discount</strong> - 30% off your first 3 months</li>
+          <li style="margin-bottom: 10px;"><strong>Priority Support</strong> - Direct line to our development team
+          </li>
+          <li><strong>Feature Input</strong> - Help shape our product roadmap</li>
+        </ul>
+      </div>
+
+      <!-- Feedback Messages -->
+      <div *ngIf="message" style="background: #DCFCE7; color: #166534; border-radius: 6px; padding: 18px; margin-bottom: 24px; text-align: center; font-weight: 500;">
+        {{ message }}
+      </div>
+      <div *ngIf="error" style="background: #FEE2E2; color: #B91C1C; border-radius: 6px; padding: 18px; margin-bottom: 24px; text-align: center; font-weight: 500;">
+        {{ error }}
+      </div>
+
+      <!-- Validation Info -->
+      <div *ngIf="!message" style="background: #EFF6FF; color: #2563EB; border-radius: 6px; padding: 14px; margin-bottom: 18px; font-size: 0.97rem;">
+        Fields marked with <span style="color:#DC2626;">*</span> are required. Please provide a valid email address and check the updates box to join the waitlist.
+      </div>
+
+      <!-- Simplified Form -->
+      <form *ngIf="!message" [formGroup]="waitlistForm" (ngSubmit)="onSubmit()">
+        <div style="margin-bottom: 20px;">
+          <label for="email" style="display: block; margin-bottom: 6px; font-weight: 500;">Email Address*</label>
+          <input type="email" id="email" formControlName="email" placeholder="Your email address"
+            style="width: 100%; padding: 12px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 1rem;"
+            [class.is-invalid]="submitted && waitlistForm.get('email')?.invalid">
+          <div *ngIf="submitted && waitlistForm.get('email')?.invalid" style="color: #DC2626; font-size: 0.9rem; margin-top: 4px;">
+            <div *ngIf="waitlistForm.get('email')?.errors?.['required']">Email is required.</div>
+            <div *ngIf="waitlistForm.get('email')?.errors?.['email']">Enter a valid email address.</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <label for="name" style="display: block; margin-bottom: 6px; font-weight: 500;">Name (Optional)</label>
+          <input type="text" id="name" formControlName="name" placeholder="Your name"
+            style="width: 100%; padding: 12px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 1rem;">
+        </div>
+
+        <div style="margin-bottom: 25px;">
+          <label for="interest" style="display: block; margin-bottom: 6px; font-weight: 500;">I'm interested in
+            (Optional)</label>
+          <select id="interest" formControlName="interest"
+            style="width: 100%; padding: 12px; border: 1px solid #D1D5DB; border-radius: 6px; font-size: 1rem; background-color: white;">
+            <option value="" disabled>Select your primary interest</option>
+            <option value="accept-payments">Accepting crypto payments on my website</option>
+            <option value="multiple-tokens">Supporting multiple tokens/networks</option>
+            <option value="automation">Payment automation via webhooks</option>
+            <option value="other">Other use case</option>
+          </select>
+        </div>
+
+        <div style="display: flex; align-items: center; margin-bottom: 25px;">
+          <input type="checkbox" id="updates" formControlName="updates" style="margin-right: 10px;">
+          <label for="updates" style="font-size: 0.9rem; color: #4B5563;">Send me occasional updates about
+            Web3Checkout <span style="color:#DC2626;">*</span></label>
+        </div>
+        <div *ngIf="submitted && waitlistForm.get('updates')?.invalid" style="color: #DC2626; font-size: 0.9rem; margin-top: -12px; margin-bottom: 16px;">
+          You must agree to receive occasional updates to join the waitlist.
+        </div>
+
+        <button type="submit"
+          style="width: 100%; padding: 14px; background-color: #F59E0B; border: none; border-radius: 6px; color: white; font-size: 1rem; font-weight: 600; cursor: pointer;">Join
+          the Waitlist</button>
+      </form>
+
+      <!-- Urgency Element -->
+      <div class="flex justify-center items-center"
+        style="margin-top: 20px; text-align: center; color: #6B7280; font-size: 0.9rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          style="vertical-align: middle; margin-right: 5px;">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        Limited spots available for beta testing program
+      </div>
+    </div>
+  </div>

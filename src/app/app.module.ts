@@ -13,11 +13,17 @@ import { MatInput } from '@angular/material/input';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { LottieComponent, provideLottieOptions } from 'ngx-lottie';
+import { WaitlistComponent } from './waitlist/waitlist.component';
+import { HomepageComponent } from './homepage/homepage.component';
+import { Web3embedAppModule } from './web3embed-app/web3embed-app.module';
 @NgModule({
   declarations: [
     AppComponent,
+    WaitlistComponent,
+    HomepageComponent,
   ],
   imports: [
+    Web3embedAppModule,
     BrowserModule,
     AppRoutingModule,
     MatMenuModule,

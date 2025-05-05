@@ -1,0 +1,145 @@
+<!-- navigation.component.html -->
+<header class="bg-indigo-900 sticky top-0 z-50 shadow-md">
+  <div class="container mx-auto px-4 max-w-screen-xl">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <a [routerLink]="['/dashboard']" class="flex items-center text-white font-bold text-xl">
+        <div class="bg-amber-500 w-8 h-8 flex items-center justify-center rounded-md mr-2">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="9" y1="9" x2="15" y2="9"></line>
+            <line x1="9" y1="12" x2="15" y2="12"></line>
+            <line x1="9" y1="15" x2="13" y2="15"></line>
+          </svg>
+        </div>
+        Web3Checkout
+      </a>
+      
+      <!-- Mobile menu button -->
+      <button class="md:hidden text-white focus:outline-none" (click)="toggleMobileMenu()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      
+      <!-- Desktop navigation -->
+      <nav class="hidden md:flex items-center" [ngClass]="{'flex flex-col fixed top-16 left-0 w-full h-screen bg-indigo-900 px-4 py-4 transform transition-transform duration-300': isMobileMenuOpen, 'hidden': !isMobileMenuOpen}">
+        <ul class="flex md:flex-row flex-col w-full md:w-auto md:mr-4 space-y-2 md:space-y-0">
+          <li *ngFor="let item of navItems; let i = index" class="relative md:ml-1">
+            <span *ngIf="item.isDropdown"
+            class="block px-4 py-2 text-indigo-100 hover:bg-indigo-800 hover:text-white rounded-md transition-colors duration-200 text-sm font-medium"
+            (click)="navItems[i].dropdownOpen = !navItems[i].dropdownOpen">{{item.label}}</span>
+            <a *ngIf="!item.isDropdown"
+              [routerLink]="[item.link]" 
+              class="block px-4 py-2 text-indigo-100 hover:bg-indigo-800 hover:text-white rounded-md transition-colors duration-200 text-sm font-medium"
+              [ngClass]="{
+                'bg-indigo-800 text-white': item.isActive,
+                'pr-8': item.isDropdown
+              }"
+              (hover)="item.isDropdown ? navItems[i].dropdownOpen = true : null"
+              routerLinkActive="bg-indigo-800 text-white"
+            >
+              {{ item.label }}
+              <!-- Dropdown arrow -->
+              <span *ngIf="item.isDropdown" class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </span>
+            </a>
+            
+            <!-- Dropdown menu -->
+            <div 
+              *ngIf="item.isDropdown" 
+              class="md:absolute left-0 top-full mt-1 w-48 bg-white rounded-md shadow-lg overflow-hidden z-10 transition-all duration-200"
+              [ngClass]="{'block': item.dropdownOpen, 'hidden': !item.dropdownOpen}"
+            >
+              <a 
+                *ngFor="let dropdownItem of item.dropdownItems" 
+                [routerLink]="[dropdownItem.link]"
+                class="block px-4 py-2 text-sm md:text-gray-700 hover:bg-indigo-700 md:hover:bg-gray-100 md:hover:text-indigo-900 text-indigo-100 md:text-gray-700"
+              >
+                {{ dropdownItem.label }}
+              </a>
+            </div>
+          </li>
+        </ul>
+        
+        <!-- User profile dropdown -->
+        <div class="relative md:ml-4 mt-4 md:mt-0">
+          <div 
+            class="w-9 h-9 rounded-full bg-indigo-600 flex items-center justify-center text-white font-semibold cursor-pointer"
+            (click)="toggleUserDropdown($event)"
+          >
+            {{ user.initials }}
+          </div>
+          
+          <!-- User dropdown menu -->
+          <div 
+            class="md:absolute right-0 top-full mt-2 w-56 bg-white rounded-md shadow-lg overflow-hidden z-10 transition-all duration-200"
+            [ngClass]="{
+              'block': userDropdownOpen,
+              'hidden': !userDropdownOpen,
+              'mt-2 bg-indigo-800 md:bg-white rounded-md': true
+            }"
+          >
+            <!-- Header -->
+            <div class="px-4 py-3 border-b border-gray-200">
+              <div class="font-semibold text-sm md:text-gray-800 text-white">{{ user.name }}</div>
+              <div class="text-xs md:text-gray-500 text-indigo-200">{{ user.email }}</div>
+            </div>
+            
+            <!-- Body -->
+            <div class="py-2">
+              <a [routerLink]="['/settings/profile']" class="flex items-center px-4 py-2 text-sm md:text-gray-700 hover:bg-indigo-700 md:hover:bg-gray-100 md:hover:text-indigo-900 text-indigo-100 md:text-gray-700">
+                <span class="mr-2 text-gray-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                </span>
+                Profile Settings
+              </a>
+              
+              <a [routerLink]="['/settings/subscription']" class="flex items-center px-4 py-2 text-sm md:text-gray-700 hover:bg-indigo-700 md:hover:bg-gray-100 md:hover:text-indigo-900 text-indigo-100 md:text-gray-700">
+                <span class="mr-2 text-gray-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </span>
+                Subscription
+                <span class="ml-auto inline-block px-2 py-0.5 text-xs font-semibold bg-amber-100 text-amber-800 rounded-full">
+                  {{ user.subscription }}
+                </span>
+              </a>
+              
+              <a [routerLink]="['/settings/notifications']" class="flex items-center px-4 py-2 text-sm md:text-gray-700 hover:bg-indigo-700 md:hover:bg-gray-100 md:hover:text-indigo-900 text-indigo-100 md:text-gray-700">
+                <span class="mr-2 text-gray-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"></path>
+                  </svg>
+                </span>
+                Notifications
+              </a>
+            </div>
+            
+            <!-- Footer -->
+            <div class="px-4 py-3 border-t border-gray-200">
+              <button 
+                (click)="signOut()" 
+                class="w-full px-3 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors duration-200"
+              >
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
