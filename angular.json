@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Coflow": {
+    "web3embed": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/coflow",
+            "outputPath": "dist/web3embed",
             "allowedCommonJsDependencies": ["lottie-web"],
 
             "index": "src/index.html",
@@ -83,10 +83,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Coflow:build:production"
+              "buildTarget": "web3embed:build:production"
             },
             "development": {
-              "buildTarget": "Coflow:build:development"
+              "buildTarget": "web3embed:build:development"
             }
           },
           "defaultConfiguration": "development"

@@ -14,7 +14,7 @@ import { PLATFORM_ID } from '@angular/core';
   styleUrl: './homepage.component.css'
 })
 export class HomepageComponent implements OnInit {
-  title = 'Coflow';
+  title = 'web3embed';
   options: AnimationOptions = {
     path: "/lottie/blockchain-wallet.json"
   };

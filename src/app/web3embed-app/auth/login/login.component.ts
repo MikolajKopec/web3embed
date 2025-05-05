@@ -1,34 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthStore } from '../../store/auth.store';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   standalone: false,
 })
-export class LoginComponent implements OnInit {
-  loginForm: FormGroup = new FormGroup({});
+export class LoginComponent {
+  private readonly authStore = inject(AuthStore);
+  private readonly router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+
+  loginForm: FormGroup = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+    rememberMe: [false],
+  });
+
   showPassword = false;
   loading = false;
   error = '';
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) { }
-
-  ngOnInit(): void {
-    this.initForm();
-  }
-
-  private initForm(): void {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      rememberMe: [false]
+  constructor() {
+    effect(() => {
+      const status = this.authStore.loginStatus();
+      if (status === 'success') {
+        this.loading = false;
+        this.router.navigate(['/app']);
+      } else if (status === 'error') {
+        this.loading = false;
+        this.error = 'Invalid credentials';
+      } else if (status === 'loading') {
+        this.loading = true;
+      }
     });
   }
 
@@ -41,19 +47,8 @@ export class LoginComponent implements OnInit {
 
     this.loading = true;
     this.error = '';
-    
-    const { email, password, rememberMe } = this.loginForm.value;
-    
-    this.authService.login(email, password).subscribe({
-      next: () => {
-        this.loading = false;
-        // Navigate to dashboard or home page after successful login
-        this.router.navigate(['/dashboard']);
-      },
-      error: (err) => {
-        this.loading = false;
-        this.error = err.error?.detail || 'Failed to login. Please check your credentials.';
-      }
-    });
+
+    const { email, password } = this.loginForm.value;
+    this.authStore.login({ email, password });
   }
 }

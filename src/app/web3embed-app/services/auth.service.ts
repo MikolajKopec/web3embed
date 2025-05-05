@@ -15,19 +15,6 @@ export class AuthService {
   // Login user
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/auth/login`, { email, password })
-      .pipe(
-        tap(response => {
-          if (response && response.access_token) {
-            // Store token in localStorage
-            localStorage.setItem('access_token', response.access_token);
-            if (response.refresh_token) {
-              localStorage.setItem('refresh_token', response.refresh_token);
-            }
-            // Store user info
-            localStorage.setItem('user', JSON.stringify(response.user));
-          }
-        })
-      );
   }
 
   // Register new user

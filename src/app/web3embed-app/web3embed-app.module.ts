@@ -23,7 +23,11 @@ import { MainViewComponent } from './main-view/main-view.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
 import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatBadgeModule } from '@angular/material/badge';
+import { RouterModule } from '@angular/router';
+import { MatExpansionModule } from '@angular/material/expansion';
 @NgModule({
   declarations: [
     NavbarComponent,
@@ -49,6 +53,12 @@ import { MatDividerModule } from '@angular/material/divider';
     FormsModule,
     MatTabGroup,
     MatTab,
+    RouterModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatListModule,
+    MatBadgeModule,
+    MatExpansionModule,
 ]
 })
 export class Web3embedAppModule { }

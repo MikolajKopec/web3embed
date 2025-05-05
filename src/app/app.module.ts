@@ -23,7 +23,7 @@ import { Web3embedAppModule } from './web3embed-app/web3embed-app.module';
     HomepageComponent,
   ],
   imports: [
-    Web3embedAppModule,
+
     BrowserModule,
     AppRoutingModule,
     MatMenuModule,
