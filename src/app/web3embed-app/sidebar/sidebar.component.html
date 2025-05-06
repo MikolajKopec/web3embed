@@ -1,0 +1,11 @@
+<div class="sidebar h-full">
+    <div *ngFor="let sideMenuCategory of sideMenu.categories">
+    <div class="sidebar-section-title">{{sideMenuCategory.name}}</div>
+    <ul class="sidebar-nav">
+        <li class="sidebar-nav-item inline-flex gap-2 cursor-pointer" [ngClass]="{active: item.link === router.url}" *ngFor="let item of sideMenuCategory.items" routerLink="{{item.link}}">
+               <mat-icon>{{item.icon}}</mat-icon>
+            <span>{{item.name}}</span>
+        </li>
+    </ul>
+</div>
+</div>

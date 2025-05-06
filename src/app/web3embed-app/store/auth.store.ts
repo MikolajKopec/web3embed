@@ -3,7 +3,7 @@ import { signal, computed } from "@angular/core";
 import { User } from "../models/user.model";
 import { inject } from "@angular/core";
 import { AuthService } from "../services/auth.service";
-
+import { Router } from "@angular/router";
 interface LoginResponse {
     access_token: string;
     refresh_token: string;
@@ -14,6 +14,7 @@ interface LoginResponse {
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
     private readonly authService = inject(AuthService);
+    private readonly router = inject(Router);
   private readonly _user = signal<User | null>(null);
   private readonly _accessToken = signal<string | null>(null);
   private readonly _refreshToken = signal<string | null>(null);
@@ -39,6 +40,7 @@ restoreFromStorage(): void {
       this._refreshToken.set(refreshToken);
       this._user.set(JSON.parse(user));
     }
+
   }
 
 login(loginData: { email: string; password: string }) {
@@ -52,6 +54,7 @@ login(loginData: { email: string; password: string }) {
         localStorage.setItem('access_token', loginResponse.access_token);
         localStorage.setItem('refresh_token', loginResponse.refresh_token);
         localStorage.setItem('user', JSON.stringify(loginResponse.user));
+        this.router.navigate(['/app/dashboard']);
       },
       error: () => {
         this._user.set(null);
@@ -69,5 +72,6 @@ login(loginData: { email: string; password: string }) {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('user');
+    this.router.navigate(['/app/auth/login']);
   }
 }

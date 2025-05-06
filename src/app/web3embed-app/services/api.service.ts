@@ -1,20 +1,28 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {environment} from '../../environments/environment';
-
+import {environment} from '../../../environments/environment';
+import { AuthStore } from '../store/auth.store';
+import { Observable } from 'rxjs';
+import { OfferResponse } from '../interfaces/offer.interface';
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-
+  authStore = inject(AuthStore);
   constructor(private httpClient: HttpClient) {
-
   }
-  addToWaitlistList(email:string){
-    return this.httpClient.post(`${environment.apiUrl}/mailing/waitlist`,{email}, {headers})
+
+  getOffers(): Observable<OfferResponse[]>{
+    const headers = this.createHeaders();
+    return this.httpClient.get<OfferResponse[]>(`${environment.apiUrl}/offers`, {headers})
+  }
+
+  private createHeaders(){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.authStore.accessToken}`
+    });
+    return headers;
   }
 
 }
-const headers = new HttpHeaders({
-  'Content-Type': 'application/json',
-});

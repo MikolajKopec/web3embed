@@ -1,4 +1,7 @@
-<app-navbar *ngIf="authStore.isLoggedIn()"></app-navbar>
-<main class="pt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <router-outlet></router-outlet>
-  </main>
+    <app-header *ngIf="authStore.isLoggedIn()"></app-header>
+    <div class="layout">
+        <app-sidebar *ngIf="authStore.isLoggedIn()"></app-sidebar>
+        <div class="w-full">
+            <router-outlet></router-outlet>
+        </div>
+    </div>

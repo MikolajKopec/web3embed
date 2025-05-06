@@ -1,0 +1,31 @@
+<header class="h-[74px]">
+    <div class="container header-container">
+        <a href="#" class="logo">
+            <div class="logo-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="9" y1="9" x2="15" y2="9"></line>
+                    <line x1="9" y1="12" x2="15" y2="12"></line>
+                    <line x1="9" y1="15" x2="13" y2="15"></line>
+                </svg>
+            </div>
+            Web3Checkout
+        </a>
+        
+        <div class="user-nav">
+            <div class="user-nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+            </div>
+            <div class="user-nav-item">
+                <span>{{ auth.user()?.email }}</span>
+            </div>
+            <div (click)="auth.logout()" class="user-nav-item bg-red-500 !px-3 !py-2 hover:bg-red-600 rounded-xl">
+                <mat-icon>logout</mat-icon>
+                <span>Logout</span>
+            </div>
+        </div>
+    </div>
+</header>

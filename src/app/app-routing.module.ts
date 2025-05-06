@@ -6,8 +6,7 @@ const routes: Routes = [
   { 
     path: 'app', 
     loadChildren: () => import('./web3embed-app/web3embed-app.module').then(m => m.Web3embedAppModule)
-  },
-  { path: '**', redirectTo: '' }
+  }
 ];
 
 @NgModule({

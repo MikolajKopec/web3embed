@@ -20,7 +20,6 @@ import { MatInput } from '@angular/material/input';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatTab } from '@angular/material/tabs';
 import { MainViewComponent } from './main-view/main-view.component';
-import { NavbarComponent } from './navbar/navbar.component';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -28,13 +27,20 @@ import { MatListModule } from '@angular/material/list';
 import { MatBadgeModule } from '@angular/material/badge';
 import { RouterModule } from '@angular/router';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HeaderComponent } from './header/header.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { OffersComponent } from './offers/offers.component';
 @NgModule({
   declarations: [
-    NavbarComponent,
     RegisterComponent,
     LoginComponent,
     AuthComponent,
     MainViewComponent,
+    DashboardComponent,
+    HeaderComponent,
+    SidebarComponent,
+    OffersComponent,
   ],
   imports: [
     CommonModule,
