@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AuthStore } from '../store/auth.store';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-main-view',
   standalone: false,
@@ -8,7 +9,5 @@ import { AuthStore } from '../store/auth.store';
 })
 export class MainViewComponent {
   public authStore = inject(AuthStore);
-  constructor() { 
-    this.authStore.restoreFromStorage();
-  }
+  public httpClient = inject(HttpClient);
 }

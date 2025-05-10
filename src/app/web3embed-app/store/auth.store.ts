@@ -1,77 +1,79 @@
-import { Injectable } from "@angular/core";
-import { signal, computed } from "@angular/core";
-import { User } from "../models/user.model";
-import { inject } from "@angular/core";
-import { AuthService } from "../services/auth.service";
-import { Router } from "@angular/router";
-interface LoginResponse {
-    access_token: string;
-    refresh_token: string;
-    token_type: string;
-    expires_in: number;
-    user: User;
-}
+import { Injectable, inject, signal, computed, ApplicationRef } from '@angular/core';
+import { Router } from '@angular/router';
+import { createClient, SupabaseClient, Session, User } from '@supabase/supabase-js';
+import { environment } from '../../../environments/environment';
+import { first } from 'rxjs';
+
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
-    private readonly authService = inject(AuthService);
-    private readonly router = inject(Router);
+  private readonly router = inject(Router);
+
+
+  supabase!: ReturnType<typeof createClient>
+
+  constructor() {
+    inject(ApplicationRef)
+      .isStable.pipe(first((isStable) => isStable))
+      .subscribe(() => {
+        this.supabase = createClient(
+          'https://hyqvljltfkppuiqlwjzo.supabase.co',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5cXZsamx0ZmtwcHVpcWx3anpvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg3Nzg4MjIsImV4cCI6MjA1NDM1NDgyMn0.3uQ7e-j1wl03YxPMY1o809GhkUqXELEE16qtJWSOxKk'
+        )
+      })
+  }
   private readonly _user = signal<User | null>(null);
   private readonly _accessToken = signal<string | null>(null);
-  private readonly _refreshToken = signal<string | null>(null);
+  private readonly _loginStatus = signal<'idle' | 'loading' | 'success' | 'error'>('idle');
+
   readonly user = computed(() => this._user());
   readonly accessToken = computed(() => this._accessToken());
-  readonly refreshToken = computed(() => this._refreshToken());
-  private _loginStatus = signal<'idle' | 'loading' | 'success' | 'error'>('idle');
-readonly loginStatus = computed(() => this._loginStatus());
-readonly isLoggedIn = computed(() => !!this._accessToken());
-
-
-restoreFromStorage(): void {
-    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+  readonly loginStatus = computed(() => this._loginStatus());
+  readonly isLoggedIn = computed(() => !!this._accessToken());
+  getAccessToken(): string | null {
+    return this._accessToken();
+  }
+  
+  async login(email: string, password: string) {
+    this._loginStatus.set('loading');
+    const { data, error } = await this.supabase.auth.signInWithPassword({ email, password });
+    
+    if (error || !data.session) {
+      this._user.set(null);
+      this._accessToken.set(null);
+      this._loginStatus.set('error');
       return;
     }
-  
-    const accessToken = localStorage.getItem('access_token');
-    const refreshToken = localStorage.getItem('refresh_token');
-    const user = localStorage.getItem('user');
-  
-    if (accessToken && refreshToken && user) {
-      this._accessToken.set(accessToken);
-      this._refreshToken.set(refreshToken);
-      this._user.set(JSON.parse(user));
-    }
+    this._user.set(data.session.user);
+    this._accessToken.set(data.session.access_token);
+    this._loginStatus.set('success');
 
-  }
+    localStorage.setItem('access_token', data.session.access_token);
+    localStorage.setItem('user', JSON.stringify(data.session.user));
 
-login(loginData: { email: string; password: string }) {
-    this._loginStatus.set('loading');
-    this.authService.login(loginData.email, loginData.password).subscribe({
-      next: (loginResponse: LoginResponse) => {
-        this._accessToken.set(loginResponse.access_token);
-        this._refreshToken.set(loginResponse.refresh_token);
-        this._user.set(loginResponse.user);
-        this._loginStatus.set('success');
-        localStorage.setItem('access_token', loginResponse.access_token);
-        localStorage.setItem('refresh_token', loginResponse.refresh_token);
-        localStorage.setItem('user', JSON.stringify(loginResponse.user));
-        this.router.navigate(['/app/dashboard']);
-      },
-      error: () => {
-        this._user.set(null);
-        this._accessToken.set(null);
-        this._refreshToken.set(null);
-        this._loginStatus.set('error');
-      }
-    });
+    this.router.navigate(['/app/dashboard']);
   }
 
   logout() {
+    this.supabase.auth.signOut();
     this._user.set(null);
     this._accessToken.set(null);
-    this._refreshToken.set(null);
+    this._loginStatus.set('idle');
     localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
     localStorage.removeItem('user');
     this.router.navigate(['/app/auth/login']);
   }
-}
+
+  async restoreFromSession() {
+    const { data } = await this.supabase.auth.getSession();
+    if (data.session) {
+      // this._user.set(data.session.user);
+      this._accessToken.set(data.session.access_token);
+      localStorage.setItem('access_token', data.session.access_token);
+      localStorage.setItem('user', JSON.stringify(data.session.user));
+    }
+  }
+
+  getSupabaseClient(): SupabaseClient {
+    return this.supabase;
+  }
+} 

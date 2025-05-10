@@ -49,6 +49,6 @@ export class LoginComponent {
     this.error = '';
 
     const { email, password } = this.loginForm.value;
-    this.authStore.login({ email, password });
+    this.authStore.login( email, password);
   }
 }

@@ -5,7 +5,7 @@ import {environment} from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class GetResponseService {
 
   constructor(private httpClient: HttpClient) {
 
