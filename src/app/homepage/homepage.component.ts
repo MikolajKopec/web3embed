@@ -19,6 +19,23 @@ export class HomepageComponent implements OnInit {
     path: "/lottie/blockchain-wallet.json"
   };
   isBrowser: boolean = false;
+
+  // FAQ accordion state
+  faqOpen: boolean[] = [];
+  faqs: any[] = [
+    { question: 'Do I need to understand blockchain technology to use this service?' },
+    { question: 'How does the Supabase integration work?' },
+    { question: 'What cryptocurrencies and networks can be accepted with Web3Checkout?' },
+    { question: 'How does payment verification work?' },
+    { question: 'How does the offer system work?' },
+    { question: 'How does the notification system work?' },
+    { question: 'Is MetaMask the only wallet supported?' },
+    { question: 'Can I customize the payment component to match my brand?' },
+    { question: 'How does billing work?' },
+    { question: 'What support options are available?' },
+    { question: 'Do you offer custom integrations?' }
+  ];
+
   constructor(private router: Router, private titleService: Title, @Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngOnInit() {
@@ -29,8 +46,13 @@ export class HomepageComponent implements OnInit {
         const title = this.getTitle(this.router.routerState, this.router.routerState.root);
         this.titleService.setTitle(title);
       });
+    // Initialize all FAQs as closed
+    this.faqOpen = this.faqs.map(() => false);
   }
 
+  toggleFaq(index: number) {
+    this.faqOpen[index] = !this.faqOpen[index];
+  }
   getTitle(state: any, parent: any): string {
     const data = [];
     if (parent && parent.snapshot.data && parent.snapshot.data.title) {
