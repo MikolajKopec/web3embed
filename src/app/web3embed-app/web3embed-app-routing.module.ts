@@ -1,3 +1,4 @@
+// web3embed-app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainViewComponent } from './main-view/main-view.component';
@@ -6,14 +7,14 @@ import { RegisterComponent } from './auth/register/register.component';
 import { AuthComponent } from './auth/auth.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OffersComponent } from './offers/offers.component';
-import { authGuard } from './guards/auth.guard';
-import { nonAuthGuard } from './guards/non-auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
+import { PublicGuard } from '../guards/public.guard';
 
 const routes: Routes = [
   { 
     path: '', 
     component: MainViewComponent,
-    canActivate: [authGuard],
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'offers', component: OffersComponent },
@@ -22,13 +23,11 @@ const routes: Routes = [
   }, 
   { 
     path: 'auth', 
-    component: AuthComponent, 
+    component: AuthComponent,
+    canActivate: [PublicGuard],
     children: [
-      { 
-        path: 'login', 
-        component: LoginComponent,
-        canActivate: [nonAuthGuard]
-      },
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      { path: 'login', component: LoginComponent },
       // { path: 'register', component: RegisterComponent },
     ]
   },

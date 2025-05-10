@@ -1,6 +1,7 @@
-import { Component, effect, inject } from '@angular/core';
+// login.component.ts
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthStore } from '../../store/auth.store';
 
 @Component({
@@ -8,10 +9,9 @@ import { AuthStore } from '../../store/auth.store';
   templateUrl: './login.component.html',
   standalone: false,
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private readonly authStore = inject(AuthStore);
   private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
   private readonly fb = inject(FormBuilder);
 
   loginForm: FormGroup = this.fb.group({
@@ -23,19 +23,13 @@ export class LoginComponent {
   showPassword = false;
   loading = false;
   error = '';
-  returnUrl: string = '/app/dashboard';
 
   constructor() {
-    // Get return url from route parameters or default to '/app/dashboard'
-    this.route.queryParams.subscribe(params => {
-      this.returnUrl = params['returnUrl'] || '/app/dashboard';
-    });
-
     effect(() => {
       const status = this.authStore.loginStatus();
       if (status === 'success') {
         this.loading = false;
-        this.router.navigateByUrl(this.returnUrl);
+        this.router.navigate(['/app/dashboard']);
       } else if (status === 'error') {
         this.loading = false;
         this.error = 'Invalid credentials';
@@ -43,6 +37,13 @@ export class LoginComponent {
         this.loading = true;
       }
     });
+  }
+
+  ngOnInit(): void {
+    // Check if already logged in
+    if (this.authStore.isLoggedIn()) {
+      this.router.navigate(['/app/dashboard']);
+    }
   }
 
   togglePasswordVisibility(): void {
