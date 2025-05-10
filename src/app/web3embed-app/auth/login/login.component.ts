@@ -1,6 +1,6 @@
 import { Component, effect, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthStore } from '../../store/auth.store';
 
 @Component({
@@ -11,6 +11,7 @@ import { AuthStore } from '../../store/auth.store';
 export class LoginComponent {
   private readonly authStore = inject(AuthStore);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly fb = inject(FormBuilder);
 
   loginForm: FormGroup = this.fb.group({
@@ -22,13 +23,19 @@ export class LoginComponent {
   showPassword = false;
   loading = false;
   error = '';
+  returnUrl: string = '/app/dashboard';
 
   constructor() {
+    // Get return url from route parameters or default to '/app/dashboard'
+    this.route.queryParams.subscribe(params => {
+      this.returnUrl = params['returnUrl'] || '/app/dashboard';
+    });
+
     effect(() => {
       const status = this.authStore.loginStatus();
       if (status === 'success') {
         this.loading = false;
-        this.router.navigate(['/app']);
+        this.router.navigateByUrl(this.returnUrl);
       } else if (status === 'error') {
         this.loading = false;
         this.error = 'Invalid credentials';
@@ -49,6 +56,6 @@ export class LoginComponent {
     this.error = '';
 
     const { email, password } = this.loginForm.value;
-    this.authStore.login( email, password);
+    this.authStore.login(email, password);
   }
 }
